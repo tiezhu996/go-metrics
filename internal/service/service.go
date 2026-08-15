@@ -35,7 +35,15 @@ func (svc *Service) Record(sm *model.Sample) error {
 func (svc *Service) ListBuckets() [][]*model.Sample {
 	ss := svc.store.ListSamples()
 	model.SortSamples(ss)
-	return model.BuildBuckets(ss, svc.bucketSize)
+	out := make([][]*model.Sample, 0)
+	for i := 0; i < len(ss); i += svc.bucketSize {
+		end := i + svc.bucketSize
+		if end > len(ss) {
+			end = len(ss)
+		}
+		out = append(out, ss[i:end])
+	}
+	return out
 }
 
 func (svc *Service) Summary() (model.Summary, error) {

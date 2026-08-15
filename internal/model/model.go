@@ -35,9 +35,7 @@ func BuildBuckets(ss []*Sample, size int) [][]*Sample {
 		if end > len(ss) {
 			end = len(ss)
 		}
-		b := make([]*Sample, end-i)
-		copy(b, ss[i:end])
-		out = append(out, b)
+		out = append(out, ss[i:end])
 	}
 	return out
 }
