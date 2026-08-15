@@ -50,7 +50,6 @@ func (p *Pool) Run(ctx context.Context) model.Summary {
 		go func() {
 			defer wg.Done()
 			for bucket := range ch {
-				bucket = bucket[1:]
 				var local model.Summary
 				for _, sm := range bucket {
 					select {
