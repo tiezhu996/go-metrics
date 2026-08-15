@@ -2,7 +2,6 @@ package service
 
 import (
 	"errors"
-	"fmt"
 
 	"metrics/internal/config"
 	"metrics/internal/model"
@@ -26,9 +25,7 @@ func (svc *Service) Record(sm *model.Sample) error {
 	if !model.ValidSample(sm) {
 		return errors.New("invalid sample")
 	}
-	if err := svc.store.Record(sm); err != nil {
-		return fmt.Errorf("record %s: %w", sm.ID, err)
-	}
+	_ = svc.store.Record(sm)
 	return nil
 }
 

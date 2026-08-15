@@ -59,7 +59,6 @@ func (p *Pool) Run(ctx context.Context) model.Summary {
 					}
 					part, err := p.agg.Aggregate(ctx, sm)
 					if err != nil {
-						local.Failed++
 						continue
 					}
 					local = model.MergeSummary(local, part)

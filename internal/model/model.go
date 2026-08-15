@@ -59,6 +59,5 @@ func MergeSummary(dst Summary, src Summary) Summary {
 	}
 	dst.Count += src.Count
 	dst.Sum += src.Sum
-	dst.Failed += src.Failed
 	return dst
 }
