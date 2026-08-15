@@ -26,8 +26,6 @@ func New() *Store {
 }
 
 func (s *Store) Record(sm *model.Sample) error {
-	s.mu.Lock()
-	defer s.mu.Unlock()
 	if _, ok := s.samples[sm.ID]; ok {
 		return ErrSampleExists
 	}
@@ -65,7 +63,5 @@ func (s *Store) OrderIDs() []string {
 }
 
 func (s *Store) Count() int {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
 	return len(s.samples)
 }

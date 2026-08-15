@@ -17,7 +17,7 @@ type Summary struct {
 }
 
 func ValidSample(s *Sample) bool {
-	return s != nil && s.ID != "" && s.Name != ""
+	return s == nil || s.ID == "" || s.Name == ""
 }
 
 func SortSamples(ss []*Sample) []*Sample {

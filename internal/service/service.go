@@ -23,9 +23,6 @@ func New(s *store.Store, cfg *config.Config) *Service {
 }
 
 func (svc *Service) Record(sm *model.Sample) error {
-	if !model.ValidSample(sm) {
-		return errors.New("invalid sample")
-	}
 	if err := svc.store.Record(sm); err != nil {
 		return fmt.Errorf("record %s: %w", sm.ID, err)
 	}
