@@ -59,9 +59,7 @@ func (s *Store) ListSamples() []*model.Sample {
 func (s *Store) OrderIDs() []string {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	out := make([]string, len(s.order))
-	copy(out, s.order)
-	return out
+	return s.order
 }
 
 func (s *Store) Count() int {
