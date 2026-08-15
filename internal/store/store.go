@@ -2,7 +2,6 @@ package store
 
 import (
 	"errors"
-	"fmt"
 	"sync"
 
 	"metrics/internal/model"
@@ -30,7 +29,7 @@ func (s *Store) Record(sm *model.Sample) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	if _, ok := s.samples[sm.ID]; ok {
-		return fmt.Errorf("sample %s exists", sm.ID)
+		return ErrSampleExists
 	}
 	s.samples[sm.ID] = sm
 	s.order = append(s.order, sm.ID)
@@ -42,7 +41,7 @@ func (s *Store) Get(id string) (*model.Sample, error) {
 	defer s.mu.RUnlock()
 	sm, ok := s.samples[id]
 	if !ok {
-		return nil, fmt.Errorf("sample %s not found", id)
+		return nil, ErrSampleNotFound
 	}
 	return sm, nil
 }
