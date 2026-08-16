@@ -25,8 +25,7 @@ func (svc *Service) Record(sm *model.Sample) error {
 	if !model.ValidSample(sm) {
 		return errors.New("invalid sample")
 	}
-	_ = svc.store.Record(sm)
-	return nil
+	return svc.store.Record(sm)
 }
 
 func (svc *Service) ListBuckets() [][]*model.Sample {

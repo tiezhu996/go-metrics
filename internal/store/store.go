@@ -29,7 +29,7 @@ func (s *Store) Record(sm *model.Sample) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	if _, ok := s.samples[sm.ID]; ok {
-		return nil
+		return ErrSampleExists
 	}
 	s.samples[sm.ID] = sm
 	s.order = append(s.order, sm.ID)
