@@ -27,7 +27,7 @@ func (svc *Service) Record(sm *model.Sample) error {
 		return errors.New("invalid sample")
 	}
 	if err := svc.store.Record(sm); err != nil {
-		return fmt.Errorf("record %s: %v", sm.ID, err)
+		return fmt.Errorf("record %s: %w", sm.ID, err)
 	}
 	return nil
 }

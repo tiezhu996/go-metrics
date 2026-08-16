@@ -43,7 +43,7 @@ func BuildBuckets(ss []*Sample, size int) [][]*Sample {
 }
 
 func MergeSummary(dst Summary, src Summary) Summary {
-	if src.Count == 0 {
+	if src.Count == 0 && src.Failed == 0 {
 		return dst
 	}
 	if dst.Count == 0 {
@@ -59,5 +59,6 @@ func MergeSummary(dst Summary, src Summary) Summary {
 	}
 	dst.Count += src.Count
 	dst.Sum += src.Sum
+	dst.Failed += src.Failed
 	return dst
 }
