@@ -41,7 +41,9 @@ func (svc *Service) ListBuckets() [][]*model.Sample {
 		if end > len(ss) {
 			end = len(ss)
 		}
-		out = append(out, ss[i:end])
+		bucket := make([]*model.Sample, end-i)
+		copy(bucket, ss[i:end])
+		out = append(out, bucket)
 	}
 	return out
 }
