@@ -42,14 +42,14 @@ func (p *Pool) Run(ctx context.Context) model.Summary {
 		}
 	}()
 
-	var sum model.Summary
+	results := make(chan model.Summary, p.workers)
 
 	for i := 0; i < p.workers; i++ {
+		wg.Add(1)
 		go func() {
-			wg.Add(1)
 			defer wg.Done()
+			var local model.Summary
 			for bucket := range ch {
-				var local model.Summary
 				for _, sm := range bucket {
 					part, err := p.agg.Aggregate(ctx, sm)
 					if err != nil {
@@ -58,11 +58,19 @@ func (p *Pool) Run(ctx context.Context) model.Summary {
 					}
 					local = model.MergeSummary(local, part)
 				}
-				sum = model.MergeSummary(sum, local)
 			}
+			results <- local
 		}()
 	}
 
-	wg.Wait()
+	go func() {
+		wg.Wait()
+		close(results)
+	}()
+
+	var sum model.Summary
+	for local := range results {
+		sum = model.MergeSummary(sum, local)
+	}
 	return sum
 }

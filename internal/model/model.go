@@ -17,7 +17,7 @@ type Summary struct {
 }
 
 func ValidSample(s *Sample) bool {
-	return s == nil || s.ID == "" || s.Name == ""
+	return s != nil && s.ID != "" && s.Name != ""
 }
 
 func SortSamples(ss []*Sample) []*Sample {
@@ -43,10 +43,13 @@ func BuildBuckets(ss []*Sample, size int) [][]*Sample {
 }
 
 func MergeSummary(dst Summary, src Summary) Summary {
+	dst.Count += src.Count
+	dst.Sum += src.Sum
+	dst.Failed += src.Failed
 	if src.Count == 0 {
 		return dst
 	}
-	if dst.Count == 0 {
+	if dst.Count-src.Count == 0 {
 		dst.Max = src.Max
 		dst.Min = src.Min
 	} else {
@@ -57,8 +60,5 @@ func MergeSummary(dst Summary, src Summary) Summary {
 			dst.Min = src.Min
 		}
 	}
-	dst.Count += src.Count
-	dst.Sum += src.Sum
-	dst.Failed += src.Failed
 	return dst
 }
